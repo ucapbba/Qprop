@@ -1,0 +1,63 @@
+# Initial wavefunction is taken from a file with this name 
+# ( default name by imag.propagation is "./dat/imag_prop_m0_wf_fin.dat" , m0=initial-m)
+   init-wf-filename string ./dat/imag_prop_0_wf_fin.dat
+
+# Distance to the t-SURFF boundary or just radial axis parameter
+# The radial axis length: Rmax = R-tsurff + E0/omega + imag-width
+   R-tsurff double 2000.0
+   
+# Amplitude of the imaginary potential
+   imag-ampl double      150.0
+
+# Width of the imaginary potential
+   imag-width double     150.0
+
+# Number of angular momenta in the corresponding expansion
+   ell-grid-size long    150
+
+# Maximum amplitudes of the electric field components
+# X-axis component if polarization in the XY-plane is used
+# Z-axis component if polarization in the   Z-axis is used
+   max-electric-field-1-x double      0.06272
+   max-electric-field-2-x double      0.0
+# Y-axis component if polarization in the XY-plane is used
+# Ignored          if polarization in the   Z-axis is used
+   max-electric-field-1-y double      0.0
+   max-electric-field-2-y double      0.0
+
+# Main frequencies of the laser beam components
+# Should not be set equal zero
+   omega-1 double      0.057
+   omega-2 double      0.114
+
+# Number of cycles of the main frequencies omega1,2
+   num-cycles-1 double   4.0
+   num-cycles-2 double   0.0
+
+# Carrier-envelope phases of each color and component in radians
+   phase-1-x double 0.0
+   phase-2-x double 0.0
+   phase-1-y double 0.0
+   phase-2-y double 0.0
+
+# Delay between the pulses (in atomic units)
+   tau-delay double 13.7789
+   
+# Time step for propagation; delta-r/4 is a sensible choice
+   delta-t double       0.05
+
+# Additional time after the laser pulse is over
+   additional-time double 0
+
+# Save the full w.f. and/or observables after each such number of timesteps
+# Set 0 if no intermediate saving is required
+   wf-saving-interval    long 0
+   obser-saving-interval long 20
+   
+# If t-SURFF/i-SURFV data is nesessary, set this trigger equal 1.
+# If not, set equal 0.
+   generate-tsurff-data long 1
+
+# If HHG data is nesessary, set this trigger equal 1.
+# If not, set equal 0.
+   generate-hhg-data long 0
