@@ -159,6 +159,11 @@
     <ClCompile Include="src\base\ylm.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="Imag.h" />
+    <ClInclude Include="isurff.h" />
+    <ClInclude Include="Real.h" />
+    <ClInclude Include="tsurff.h" />
     <ClInclude Include="src\base\bar.h" />
     <ClInclude Include="src\base\factorial.h" />
     <ClInclude Include="src\base\fluid.h" />

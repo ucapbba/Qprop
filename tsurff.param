@@ -2,10 +2,10 @@
    k-min-tsurff double 0.1
 
 # Largest k value in the calculated spectrum
-   k-max-surff double 1.7
+   k-max-surff double 1
 
 # Number of k values for the spectrum
-   num-k-surff long 1700
+   num-k-surff long 2000
 
 # Number of angles theta ( \theta \in [0:\pi] ). If even, automatically increased by 1. 
 # However, if chosen just 1, then \theta = 0.5\pi is taken.

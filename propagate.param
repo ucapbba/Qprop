@@ -3,10 +3,10 @@
    init-wf-filename string ./dat/imag_prop_0_wf_fin.dat
 
 # Distance to the t-SURFF boundary
-   R-tsurff double 300.0
+   R-tsurff double 2000.0
 
 # Amplitude of the imaginary potential
-   imag-ampl double      100.0
+   imag-ampl double      150.0
 
 # Width of the imaginary potential
    imag-width double     150.0

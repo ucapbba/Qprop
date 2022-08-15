@@ -13,43 +13,46 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Base">
+      <UniqueIdentifier>{c8c6da93-5731-4d7b-a85d-38802278c99f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qprop_v3.2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\bar.cc">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\base\ned.cc">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\base\factorial.cc">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\base\fluid.cc">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\base\gfunc.cc">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\base\grid.cc">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\base\hamop.cc">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\ned.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\base\parameter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\base\wavefunction.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\base\winop.cc">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\base\bar.cc">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\base\ylm.cc">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\wavefunction.cc">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\winop.cc">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\parameter.cc">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +103,21 @@
     </ClInclude>
     <ClInclude Include="src\base\potentials.hh">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tsurff.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Imag.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Real.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="isurff.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
