@@ -15,7 +15,7 @@ import scipy.special
 pi = np.pi 
 
 ### Insert desired path here ###
-qprop_path = ''
+qprop_path = 'C:/GIT/AttoPhysics/Qprop/dat/'
 
 ##---------------------------------##
 #    Data  type  and  plot  type    #
@@ -38,7 +38,7 @@ Ntheta = 301 # should be ODD, should coincide with tsurff.param. If 1, theta=0.5
 Nphi   = 1   # should coincide with tsurff.param
 
 tsurff_method = 'isurfv' # 'tsurff' or 'isurfv'
-file_name = tsurff_method + '_polar.dat'
+file_name = tsurff_method + '_polar_0.dat'
 
 ##---------------------------------##
 #    Data  type  and  plot  type    #

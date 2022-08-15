@@ -1,0 +1,32 @@
+# This determines the duration of the simulation (slowest electron to reach the t-SURFF boundary).
+   k-min-tsurff double 0.1
+
+# Largest k value in the calculated spectrum
+   k-max-surff double 1.7
+
+# Number of k values for the spectrum
+   num-k-surff long 1700
+
+# Number of angles theta ( \theta \in [0:\pi] ). If even, automatically increased by 1. 
+# However, if chosen just 1, then \theta = 0.5\pi is taken.
+   num-theta-surff long 301
+
+# Number of angles phi ( \phi \in [0:2\pi] ). If the polarization is chosen linear, this value is switched to 1.
+   num-phi-surff long 1
+
+# How many time steps are processed at a time during evaluation of the spectrum
+   cache-size-t long 512
+
+# delta-k-scheme=1: equidistant k grid discretization with respect to momentum;
+# delta-k-scheme=2: equidistant k grid discretization with respect to energy
+   delta-k-scheme long 1
+
+# expansion-scheme=1: use for small number of angles and large number of ells (no partial spectra are produced)
+# expansion-scheme=2: true expansion of the spectrum in spherical harmonics;
+   expansion-scheme long 1
+
+# 1 for t-SURFF (2016 qprop paper), 2 for i-SURFV (2019 qprop paper)
+   tsurff-version long 2
+   
+# Width of imaginary potential in i-SURFV is multiplied by this factor
+   isurfv-imag-width-factor double 1.0

@@ -1,6 +1,6 @@
 #ifndef TSURFF_SPECTRUM_HH
 #define TSURFF_SPECTRUM_HH
-
+#define M_PI       3.14159265358979323846   // pi
 #include <memory>
 #include <vector>
 #include <complex>
@@ -286,8 +286,8 @@ public:
             };
             start_t+=entries_read;
             all_entries_read+=entries_read;
-            if (i_proc==0)
-                cout << "timestep " << all_entries_read << " of " << long(duration/delta_t)+1 << endl;
+            //if (i_proc==0)
+             cout <<"/r " << "timestep " << all_entries_read << " of " << long(duration / delta_t) + 1 << "                   ";
             offset+=cache_size_t;
 // #ifdef HAVE_BOOST
 //         cout << "time for call of time_integration() per time step:  " << tim.elapsed()/double(entries_read) << " for proc " << i_proc << endl;
@@ -582,34 +582,44 @@ private:
     */
     void time_integration_theta_phi(long start_t, long stop_t) {
         // time integration for t-surff
-        for (long i_k=0; i_k<num_k_proc; i_k++) 
+        try
         {
-            const double k = k_values[i_k];
-            for (long i_theta=0; i_theta<num_theta_surff; i_theta++) 
+            for (long i_k = 0; i_k < num_k_proc; i_k++)
             {
-                const double cos_theta = cos(thetas_surff[i_theta]);
-                for (long i_t=start_t; i_t<stop_t; i_t++) 
+                cout << "\r" << " ik = " << i_k << "of " << num_k_proc << "   			";
+                const double k = k_values[i_k];
+                for (long i_theta = 0; i_theta < num_theta_surff; i_theta++)
                 {
-                    const long cache_i_t   = i_t-start_t;
-                    const double time      = delta_t*double(i_t);
-                    const double hanning_t = hanning_win(time);
-                    const double alpha_t   = vecpot_z.integral(time);
-                    const double A_t       = vecpot_z(time, 0);
-                    // H(t) e^{i k^2 t/2 + ik_z \alpha_z(t)}
-                    const cplxd hanning_t_exp_volkov=hanning_t*exp(cplxd(0., 1.)*0.5*k*k*time + cplxd(0., 1.)*k*cos_theta*alpha_t);
-                    for (long i_ell=0; i_ell<ell_grid_size; i_ell++) 
+                    const double cos_theta = cos(thetas_surff[i_theta]);
+                    for (long i_t = start_t; i_t < stop_t; i_t++)
                     {
-                        const long ind_surff=index_ell_theta_k(i_ell, i_theta, i_k);
-                        const long ind_wave =i_ell+cache_i_t*ell_grid_size;
-                        psi_surff[ind_surff]       +=     hanning_t_exp_volkov*psi_R[ind_wave];
-                        psi_deriv_surff[ind_surff] +=     hanning_t_exp_volkov*psi_R_deriv[ind_wave];
-                        psi_A_surff[ind_surff]     += A_t*hanning_t_exp_volkov*psi_R[ind_wave];
+                        const long cache_i_t = i_t - start_t;
+                        const double time = delta_t * double(i_t);
+                        const double hanning_t = hanning_win(time);
+                        const double alpha_t = vecpot_z.integral(time);
+                        const double A_t = vecpot_z(time, 0);
+                        // H(t) e^{i k^2 t/2 + ik_z \alpha_z(t)}
+                        const cplxd hanning_t_exp_volkov = hanning_t * exp(cplxd(0., 1.) * 0.5 * k * k * time + cplxd(0., 1.) * k * cos_theta * alpha_t);
+                        for (long i_ell = 0; i_ell < ell_grid_size; i_ell++)
+                        {
+                            const long ind_surff = index_ell_theta_k(i_ell, i_theta, i_k);
+                            const long ind_wave = i_ell + cache_i_t * ell_grid_size;
+                            psi_surff[ind_surff] += hanning_t_exp_volkov * psi_R[ind_wave];
+                            psi_deriv_surff[ind_surff] += hanning_t_exp_volkov * psi_R_deriv[ind_wave];
+                            psi_A_surff[ind_surff] += A_t * hanning_t_exp_volkov * psi_R[ind_wave];
 
+                        };
                     };
                 };
             };
-        };
-    };
+        }
+        catch (exception e)
+        {
+            cout << "Error : " << e.what() << std::endl;
+        }
+
+   };
+
 
     /*
     /// calculate an index (useful in expansion mode 1 and qprop dim 44)
@@ -695,7 +705,7 @@ private:
     */
     void time_integration_ell1_ell2(long start_t, long stop_t) {
         // time integration for t-surff
-        double j_l2kalpha[ell_grid_size+1];
+        double * j_l2kalpha = new double[ell_grid_size+1];
         for (long i_k=0; i_k<num_k_proc; i_k++) {
             const double k = k_values[i_k];
             for (long i_t=start_t; i_t<stop_t; i_t++) {
@@ -750,7 +760,7 @@ private:
     void time_integration_ell1_m1_ell2_m2(long start_t, long stop_t) 
     {
         // time integration for t-surff
-        double j_l2kalpha[ell_grid_size+1];
+        double * j_l2kalpha = new double[ell_grid_size+1];
         for (long i_k=0; i_k<num_k_proc; i_k++) 
         {
             const double k=k_values[i_k];
@@ -914,7 +924,7 @@ private:
         };
 
         // In order to calculate the derivative of the spherical Bessel function j_l we use the j_{l+1} -> size of the array ell_grid_size+1
-        double j_lkr[ell_grid_size+1];
+        double * j_lkr = new double[ell_grid_size+1];
         // Big loop for summing over ells and such
         ofstream tsurff_polar_dat("./dat/tsurff_polar_"+fixed_length_number(num_proc, i_proc)+".dat");
         tsurff_polar_dat.precision(17);
@@ -926,7 +936,8 @@ private:
                 cout << i_k << " k values  of " << num_k_proc << " complete." << endl;
             double k;
             double energy;
-            cplxd psi_R_inf[ell_grid_size], psi_deriv_R_inf[ell_grid_size];
+            cplxd* psi_R_inf = new cplxd[ell_grid_size];
+            cplxd * psi_deriv_R_inf = new cplxd[ell_grid_size];
             if (tsurff_method == 2) 
             {
                 long fscanf_status;
@@ -1038,7 +1049,7 @@ private:
         if (i_proc==0)
             cout << "Obtaining angle-resolved spectrum." << endl;
         // In order to calculate the derivative of the spherical Bessel function j_l we use the j_{l+1} -> size of the array ell_grid_size+1
-        double j_lkr[ell_grid_size+1];
+        double * j_lkr= new double[ell_grid_size+1];
         ofstream tsurff_polar_dat("./dat/tsurff_polar_"+fixed_length_number(num_proc, i_proc)+".dat"); 
         tsurff_polar_dat.precision(17);
 		ofstream isurfv_polar_dat("./dat/isurfv_polar_"+fixed_length_number(num_proc, i_proc)+".dat"); 
@@ -1071,7 +1082,8 @@ private:
                 cout << i_k << " k values  of " << num_k_proc << " complete." << endl;
             double k;
             double energy;
-            cplxd psi_R_inf[ell_grid_size*ell_grid_size], psi_deriv_R_inf[ell_grid_size*ell_grid_size];
+            cplxd * psi_R_inf = new cplxd[ell_grid_size * ell_grid_size];
+            cplxd * psi_deriv_R_inf = new cplxd[ell_grid_size*ell_grid_size];
             if (tsurff_method == 2) 
             {
                 long fscanf_status;
@@ -1238,7 +1250,7 @@ private:
         if (i_proc==0)
             cout << "Obtaining partial-amplitude-resolved spectrum." << endl;
         // In order to calculate the derivative of the spherical Bessel function j_l we use the j_{l+1} -> size of the array ell_grid_size+1
-        double j_lkr[ell_grid_size+1];
+        double * j_lkr = new double[ell_grid_size+1];
         double_ptr wigner_pre(new double[ell_grid_size*ell_grid_size]);
         for (long i_ell=labs(initial_m); i_ell<ell_grid_size; i_ell++) 
         {
@@ -1552,7 +1564,7 @@ private:
         if (i_proc==0)
             cout << "Obtaining partial-amplitude-resolved spectrum." << endl;
         // In order to calculate the derivative of the spherical Bessel function j_l we use the j_{l+1} -> size of the array ell_grid_size+1
-        double j_lkr[ell_grid_size+1];
+        double * j_lkr = new double[ell_grid_size+1];
         // For storage of coefficients for fixed \ell and m (one value for every combination of \ell_1, m_1 and \ell_2)
         double_ptr wigner_pre(new double[ell_grid_size*ell_grid_size*ell_grid_size]);
         for (long i_ell=0; i_ell<ell_grid_size; i_ell++) 
