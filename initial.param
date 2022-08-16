@@ -27,6 +27,5 @@
    initial-ell long 0
    initial-m   long 0
    
-
 # Number of imaginary timesteps
    im-time-steps long 5000

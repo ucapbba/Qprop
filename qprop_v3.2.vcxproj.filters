@@ -119,6 +119,9 @@
     <ClInclude Include="isurff.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="tsurff_MPI.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

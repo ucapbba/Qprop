@@ -21,6 +21,17 @@
 // Functions determining the potentials are defined in potentials.hh
 #include <potentials.hh>
 
+
+void print_banner(long tsurff_version)
+{
+    fprintf(stdout, " ---------------------------------------------------\n");
+    if (tsurff_version == 1)
+        fprintf(stdout, "                 t-SURFF initialized              \n");
+    if (tsurff_version == 2)
+        fprintf(stdout, "                 i-SURFV initialized              \n");
+    fprintf(stdout, " ---------------------------------------------------\n");
+};
+
 void ell_m_consistency(long ell, long m, grid g) {
     if (ell < labs(m)) {
         cerr << "|m| is greater than ell" << endl;

@@ -4,14 +4,16 @@
 #include "Real.h"
 #include "tsurff.h"
 #include "isurff.h"
-
+#include "tsurff_MPI.h"
 
 int main()
 {
     //ImaginaryProp();
     //RealProp();
-    tsurff();  //ensure tsurff-version long 1 in tsurff.param
-    //isurff(); //ensure tsurff-version long 2 in tsurff.param
+    // isurfv(); //ensure tsurff-version long 2 in tsurff.param
+    //tsurff();  //ensure tsurff-version long 1 in tsurff.param
+    tsurff_MPI();
+
 }
 
 

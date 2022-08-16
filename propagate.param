@@ -28,7 +28,7 @@
    phase double 0.0
    
 # Time step for propagation; delta-r/4 is a sensible choice
-   delta-t double       0.5
+   delta-t double       0.05
 
 # Additional time after the laser pulse is over
    additional-time double 0

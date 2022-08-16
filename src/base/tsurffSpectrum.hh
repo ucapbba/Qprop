@@ -17,10 +17,7 @@
 #include <smallHelpers.hh>
 #include <powers.hh>
 
-
-#ifdef HAVE_MPI
 #include "mpi.h"
-#endif
 
 typedef std::complex<double> cplxd;
 typedef std::unique_ptr<cplxd[]> cplxd_ptr;
@@ -209,7 +206,7 @@ public:
     
         // size of grid for ells and ms: ell^2 for dim 44 and ell for 34
         ell_m_grid_size=(qprop_dim==34)?ell_grid_size:ell_grid_size*ell_grid_size;
-        
+ 
         // the calculation of ind_R should be consistent with the rest of the program
         grid prop_g(qprop_dim, 0, delta_r, 0.0); // this grid instance is only used to calculate an r-index and r from index
         const long ind_R=prop_g.rindex(R_tsurff);
@@ -228,10 +225,11 @@ public:
             duration = pulse_duration + additional_time;
         };
         duration = double(long(duration/delta_t)+1)*delta_t;
-        i_proc=0;
+        i_proc;
         num_proc=1;
         num_k_proc=num_k_surff;
-#ifdef HAVE_MPI
+//#ifdef HAVE_MPI
+
         MPI_Comm_rank(MPI_COMM_WORLD, &i_proc);
         MPI_Comm_size(MPI_COMM_WORLD, &num_proc);
         num_k_proc=num_k_surff/num_proc;
@@ -239,7 +237,7 @@ public:
         if (i_proc==(num_proc-1))
             num_k_proc+=num_k_surff%num_proc;
         cout << " I am process " << i_proc << " of " << num_proc << " processes. My share of k values: " << num_k_proc << endl;
-#endif
+//#endif
     
         prep_mom_grid();
         prep_space();
@@ -258,6 +256,7 @@ public:
     /// call time_integration_ell1_m1_ell2_m2(long, long) \n
     */
     void time_integration() {
+
         long entries_read(0);
         long all_entries_read(0);
         long offset(0);
@@ -267,6 +266,7 @@ public:
 //       boost::timer tim;
 // #endif
             // ell_m_grid_size * cache_size_t entries are read
+          
             entries_read=read_psi_data()/ell_m_grid_size;
             if      (expansion_scheme==1 && qprop_dim==34)
                 time_integration_theta_phi(start_t, start_t+entries_read);
@@ -286,8 +286,8 @@ public:
             };
             start_t+=entries_read;
             all_entries_read+=entries_read;
-            //if (i_proc==0)
-             cout <<"/r " << "timestep " << all_entries_read << " of " << long(duration / delta_t) + 1 << "                   ";
+            if (i_proc==0)
+             cout << "timestep " << all_entries_read << " of " << long(duration / delta_t) + 1 << "                   ";
             offset+=cache_size_t;
 // #ifdef HAVE_BOOST
 //         cout << "time for call of time_integration() per time step:  " << tim.elapsed()/double(entries_read) << " for proc " << i_proc << endl;
@@ -412,12 +412,13 @@ private:
             k_values.resize(num_k_proc);
         long i_k_min=0;
         long i_k_max=num_k_surff;
-#ifdef HAVE_MPI
+//#ifdef HAVE_MPI
         i_k_min=i_proc*num_k_proc;
         i_k_max=(i_proc+1)*num_k_proc;
         if (i_proc==(num_proc-1))
         i_k_max+=num_k_surff%num_proc;
-#endif
+//#endif
+
         if (delta_k_scheme==1) {
             const double delta_k_surff=k_max_surff/double(num_k_surff);
             for (long i_k=i_k_min; i_k<i_k_max; i_k++) {
@@ -586,7 +587,6 @@ private:
         {
             for (long i_k = 0; i_k < num_k_proc; i_k++)
             {
-                cout << "\r" << " ik = " << i_k << "of " << num_k_proc << "   			";
                 const double k = k_values[i_k];
                 for (long i_theta = 0; i_theta < num_theta_surff; i_theta++)
                 {
@@ -905,7 +905,8 @@ private:
         };
 
         // ignoring first i_k_min lines
-        FILE* file=fopen("./dat/isurfv.dat", "r");
+        //FILE* file=fopen("./dat/isurfv.dat", "r");
+        FILE* file = fopen("../../dat/isurfv.dat", "r");
         if (tsurff_method == 2) 
         {
             double energy,k;
@@ -926,9 +927,11 @@ private:
         // In order to calculate the derivative of the spherical Bessel function j_l we use the j_{l+1} -> size of the array ell_grid_size+1
         double * j_lkr = new double[ell_grid_size+1];
         // Big loop for summing over ells and such
-        ofstream tsurff_polar_dat("./dat/tsurff_polar_"+fixed_length_number(num_proc, i_proc)+".dat");
+       // ofstream tsurff_polar_dat("./dat/tsurff_polar_"+fixed_length_number(num_proc, i_proc)+".dat");
+        ofstream tsurff_polar_dat("../../dat/tsurff_polar_" + fixed_length_number(num_proc, i_proc) + ".dat");
         tsurff_polar_dat.precision(17);
-		ofstream isurfv_polar_dat("./dat/isurfv_polar_"+fixed_length_number(num_proc, i_proc)+".dat");
+		//ofstream isurfv_polar_dat("./dat/isurfv_polar_"+fixed_length_number(num_proc, i_proc)+".dat");
+        ofstream isurfv_polar_dat("../../dat/isurfv_polar_"+fixed_length_number(num_proc, i_proc)+".dat");
         isurfv_polar_dat.precision(17);
         for (long i_k=0; i_k<num_k_proc; i_k++) 
         {

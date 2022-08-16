@@ -9,7 +9,8 @@ parameterListe::parameterListe() {
 // parameterListe::parameterListe() {
 //   std::ifstream input("parameters");
 //   if(!input)      {
-//     std::cerr << "file not read in parameterListe::parameterListe()" << "\n";     
+//     std::cerr << "
+//  parameterListe::parameterListe()" << "\n";     
 //     exit(-1);
 //   };
 //   char line[80];

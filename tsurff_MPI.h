@@ -1,23 +1,36 @@
 #include "Header.h"
+#include <string>
+//#ifdef HAVE_MPI
+#include "mpi.h"
+//#endif
 
-
-
-void tsurff()
+void tsurff_MPI()
 {
+    int i_proc;
+//#ifdef HAVE_MPI
     clock_t t = clock();
-    parameterListe para_ini("initial.param");
-    parameterListe para_prop("propagate.param");
-    parameterListe para_tsurff("tsurff.param");
+    int ierr = MPI_Init(NULL, NULL);
+    MPI_Comm_rank(MPI_COMM_WORLD, &i_proc);
+    cout << "MPI_Init returns " << ierr << endl;
+    cout << "MPI_Init rank " << i_proc << endl;
+//#endif
+
+    parameterListe para_ini("../../initial.param");
+    parameterListe para_prop("../../propagate.param");
+    parameterListe para_tsurff("../../tsurff.param");
+//
 
     const long tsurff_version = para_tsurff.getLong("tsurff-version");
     const long     qprop_dim = para_ini.getLong("qprop-dim");
-
-    print_banner(tsurff_version);
-
+    if (i_proc == 0)
+    {
+        print_banner(tsurff_version);
+    };
     double omega = para_prop.getDouble("omega");
     double E_0 = para_prop.getDouble("max-electric-field");
     double phase = para_prop.getDouble("phase");
     double n_c = para_prop.getDouble("num-cycles");
+    
 
 
     if ((omega == 0.0) && (E_0 != 0.0))
@@ -55,6 +68,7 @@ void tsurff()
     vecpot vecpot_z(omega, nz, Ez, phase);
 
     tsurffSpectrum<vecpot, vecpot, vecpot> tsurff(para_ini, para_prop, para_tsurff, vecpot_x, vecpot_y, vecpot_z);
+
     tsurff.time_integration();
     // tsurff.print_int_dt_psi();
     // tsurff.print_wigner(0);
@@ -62,15 +76,16 @@ void tsurff()
     // tsurff.print_bessel();
     tsurff.polar_spectrum();
     tsurff.print_partial_amplitudes();
-
+//#ifdef HAVE_MPI
+   int ierrfin = MPI_Finalize();
     float sec = ((float)(clock() - t)) / CLOCKS_PER_SEC;
     cout << "Timer: " << long(sec) / 3600 << "h " << long(sec) % 3600 / 60 << "min " << (long(sec * 100) % 6000) / 100.0 << "sec\n";
     fprintf(stdout, " ---------------------------------------------------\n");
     if (tsurff_version == 1)
-        fprintf(stdout, "                 t-SURFF finished              \n");
+        fprintf(stdout, "t-SURFF finished on proc %d. MPI_Finalize returns %d \n", i_proc, ierrfin);
     if (tsurff_version == 2)
-        fprintf(stdout, "                 i-SURFV finished              \n");
+        fprintf(stdout, "i-SURFV finished on proc %d. MPI_Finalize returns %d \n", i_proc, ierrfin);
     fprintf(stdout, " ---------------------------------------------------\n");
-
-
+//#endif
+ //   return 0;
 }

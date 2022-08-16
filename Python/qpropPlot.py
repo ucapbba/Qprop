@@ -21,12 +21,12 @@ qprop_path = 'C:/GIT/AttoPhysics/Qprop/dat/'
 #    Data  type  and  plot  type    #
 ##---------------------------------##
 log_scale = 1              # True or False
-min_order = -6           # Data below 10^(min_order) not shown
+min_order = -10          # Data below 10^(min_order) not shown
 
 ##---------------------------------##
 #         Colormap for plot         #
 ##---------------------------------##
-FONTSIZE = 24         # General fontsize on all axes and labels
+FONTSIZE =10         # General fontsize on all axes and labels
 # 2D #
 cmap  = 'cividis'       
 TICKS_COLOR = 'black'
@@ -38,7 +38,7 @@ Ntheta = 301 # should be ODD, should coincide with tsurff.param. If 1, theta=0.5
 Nphi   = 1   # should coincide with tsurff.param
 
 tsurff_method = 'isurfv' # 'tsurff' or 'isurfv'
-file_name = tsurff_method + '_polar_0.dat'
+file_name = tsurff_method + '_polar.dat'
 
 ##---------------------------------##
 #    Data  type  and  plot  type    #
@@ -92,9 +92,9 @@ ax = plt.subplot()
 
 X = R*np.cos(Angles2D)
 Y = R*np.sin(Angles2D)
-extra=6
+extra=2
 if log_scale==True:
-    cplt = ax.pcolor( X, Y, (W2D), norm = LogNorm(), vmin=10**min_order, vmax=vmax, cmap=cmap)
+    cplt = ax.pcolor( X, Y, (W2D), norm = LogNorm(), vmin=10**min_order, vmax=1, cmap=cmap)
 if log_scale==False:
     cplt = ax.pcolor( X, Y, (W2D+1e-100),                   vmin=vmax*10**min_order, vmax=vmax, cmap=cmap)
 if wrt_energy==True:
@@ -110,5 +110,5 @@ plt.yticks(fontsize=FONTSIZE+extra)
 cbar = plt.colorbar(cplt)
 
 cbar.ax.tick_params(labelsize=FONTSIZE-4)
-cbar.set_label(label="Normalised Differential ionization probability ",fontsize=FONTSIZE-4)
+cbar.set_label(label="Normalised Differential ionization probability ",fontsize=FONTSIZE)
 plt.show()

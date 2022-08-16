@@ -6,7 +6,7 @@ void print_banner_i() {
     fprintf(stdout, " -----------------------------------------------------------\n");
 };
 
-void isurff()
+void isurfv()
 {
     clock_t t = clock();
     print_banner_i();
